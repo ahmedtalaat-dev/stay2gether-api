@@ -3,10 +3,17 @@ const express = require("express");
 const http = require("http");
 const { connectDatabase } = require("./config/db");
 
+const authRoute = require("./routes/authRoute");
+const userRoute = require("./routes/userRoute");
+
 const app = express();
 
 // Middleware
 app.use(express.json({ limit: "2mb" }));
+
+// API Routes
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
 
 // Health Check
 app.get("/", (req, res) => {
