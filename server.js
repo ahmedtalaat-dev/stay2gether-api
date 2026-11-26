@@ -5,6 +5,8 @@ const { connectDatabase } = require("./config/db");
 
 const authRoute = require("./routes/authRoute");
 const userRoute = require("./routes/userRoute");
+const postRoute = require("./routes/postRoute");
+const mediaRoute = require("./routes/mediaRoute");
 
 const app = express();
 
@@ -14,6 +16,8 @@ app.use(express.json({ limit: "2mb" }));
 // API Routes
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
+app.use("/api", postRoute);
+app.use("/api/media", mediaRoute);
 
 // Health Check
 app.get("/", (req, res) => {
