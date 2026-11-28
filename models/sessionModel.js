@@ -7,7 +7,7 @@ const sessionSchema = new mongoose.Schema(
     createdAt: { type: String, required: true },
     expiresAt: { type: String, required: true },
   },
-  { timestamps: true },
+  { versionKey: false },
 );
 
 const SessionModel = mongoose.model("Session", sessionSchema);

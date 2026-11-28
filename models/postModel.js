@@ -10,7 +10,7 @@ const postSchema = new mongoose.Schema(
     originalPostId: { type: String, ref: "Post", default: null, index: true },
     createdAt: { type: String, required: true, index: true },
   },
-  { timestamps: true },
+  { versionKey: false },
 );
 
 const PostModel = mongoose.model("Post", postSchema);
