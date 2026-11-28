@@ -6,7 +6,7 @@ const likeSchema = new mongoose.Schema(
     postId: { type: String, required: true, ref: "Post", index: true },
     createdAt: { type: String, required: true },
   },
-  { timestamps: true },
+  { versionKey: false },
 );
 
 likeSchema.index({ userId: 1, postId: 1 }, { unique: true });

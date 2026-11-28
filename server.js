@@ -1,16 +1,29 @@
-require("dotenv/config");
+require("dotenv").config();
+
 const express = require("express");
 const http = require("http");
-const { connectDatabase } = require("./config/db");
+const cors = require("cors");
 
-const authRoute = require("./routes/authRoute");
-const userRoute = require("./routes/userRoute");
-const postRoute = require("./routes/postRoute");
-const mediaRoute = require("./routes/mediaRoute");
+const authRoute = require("./routes/authRoute.js");
+const mediaRoute = require("./routes/mediaRoute.js");
+const messageRoute = require("./routes/messageRoute.js");
+const notificationRoute = require("./routes/notificationRoute.js");
+const postRoute = require("./routes/postRoute.js");
+const userRoute = require("./routes/userRoute.js");
+
+const { connectDatabase } = require("./config/db.js");
+const { initWebSocketServer } = require("./utils/realtime.js");
 
 const app = express();
 
-// Middleware
+// CORS configuration
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  }),
+);
+
 app.use(express.json({ limit: "2mb" }));
 
 // API Routes
@@ -18,17 +31,11 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api", postRoute);
 app.use("/api/media", mediaRoute);
+app.use("/api/notifications", notificationRoute);
+app.use("/api/conversations", messageRoute);
 
-// Health Check
-app.get("/", (req, res) => {
-  res.status(200).json({
-    status: "ok",
-    message: "Server is running",
-  });
-});
-
-// Global Error Handler
-app.use((err, req, res, next) => {
+// Express error handler
+app.use((err, _req, res, _next) => {
   console.error("Unhandled server error:", err);
 
   res.status(500).json({
@@ -36,23 +43,25 @@ app.use((err, req, res, next) => {
   });
 });
 
-// HTTP Server
 const server = http.createServer(app);
 
-// Start Server
+// Initialize WebSocket
+initWebSocketServer(server);
+
 async function startServer() {
-  const PORT = Number(process.env.PORT) || 5000;
 
-  try {
-    await connectDatabase();
+  const PORT = process.env.PORT || 5000;
 
-    server.listen(PORT, "0.0.0.0", () => {
-      console.log(`Stay2Gether API running on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error("Failed to start server:", error);
-    process.exit(1);
-  }
+  await connectDatabase();
+
+  server.listen(PORT, "0.0.0.0", () => {
+    console.log(`Stay2Gether API server listening on http://0.0.0.0:${PORT}`);
+  });
 }
 
-startServer();
+startServer().catch((err) => {
+  console.error("Failed to start server:", err);
+  process.exit(1);
+});
+
+module.exports = { app, server };

@@ -3,7 +3,7 @@ const {
   uploadBufferToCloudinary,
 } = require("../utils/cloudinary.js");
 
-export async function uploadMedia(req, res) {
+async function uploadMedia(req, res) {
   if (!req.file) {
     res.status(400).json({ error: "No media file provided." });
     return;
@@ -29,3 +29,5 @@ export async function uploadMedia(req, res) {
     });
   }
 }
+
+module.exports = uploadMedia;

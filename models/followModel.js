@@ -6,7 +6,7 @@ const followSchema = new mongoose.Schema(
     followingId: { type: String, required: true, ref: "User", index: true },
     createdAt: { type: String, required: true },
   },
-  { timestamps: true },
+  { versionKey: false },
 );
 
 followSchema.index({ followerId: 1, followingId: 1 }, { unique: true });

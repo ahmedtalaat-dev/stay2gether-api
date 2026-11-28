@@ -1,5 +1,4 @@
-const { getUserFromToken } = require("../utils/crypto.js");
-const { isDbConnected } = require("../config/db.js");
+const { isDbConnected } = require("../config/db");
 
 function extractBearerToken(req) {
   const header = req.headers.authorization;

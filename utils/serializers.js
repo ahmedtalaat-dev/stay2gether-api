@@ -3,6 +3,7 @@ const { FollowModel } = require("../models/followModel.js");
 const { LikeModel } = require("../models/likeModel.js");
 const { PostModel } = require("../models/postModel.js");
 const { UserModel } = require("../models/userModel.js");
+const { isUserOnline } = require("./realtime.js");
 
 async function buildUserProfile(user, viewerId) {
   const id = user._id;

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
+    _id: { type: String, required: true },
     username: {
       type: String,
       required: true,
@@ -24,8 +25,9 @@ const userSchema = new mongoose.Schema(
     website: { type: String, default: "" },
     avatarUrl: { type: String, default: "" },
     bannerUrl: { type: String, default: "" },
+    createdAt: { type: String, required: true },
   },
-  { timestamps: true },
+  { versionKey: false },
 );
 
 const UserModel = mongoose.model("User", userSchema);
