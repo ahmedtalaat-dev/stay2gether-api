@@ -1,4 +1,4 @@
-const { express } = require("express");
+const express = require("express");
 const {
   addComment,
   createPost,
@@ -14,7 +14,7 @@ const {
   requireAuth,
   requireDb,
 } = require("../middlewares/authMiddleware.js");
-const { asyncHandler } = require("../utils/asyncHandler.js");
+const asyncHandler = require("../utils/asyncHandler.js");
 
 const router = express.Router();
 

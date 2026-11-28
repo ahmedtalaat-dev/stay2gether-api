@@ -1,5 +1,4 @@
 const express = require("express");
-
 const {
   getFollowers,
   getFollowing,
@@ -8,14 +7,12 @@ const {
   toggleFollow,
   updateMyProfile,
 } = require("../controllers/userController.js");
-
 const {
   optionalAuth,
   requireAuth,
   requireDb,
 } = require("../middlewares/authMiddleware.js");
-
-const { asyncHandler } = require("../utils/asyncHandler.js");
+const asyncHandler = require("../utils/asyncHandler.js");
 
 const router = express.Router();
 
