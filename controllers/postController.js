@@ -4,8 +4,9 @@ const { FollowModel } = require("../models/followModel.js");
 const { LikeModel } = require("../models/likeModel.js");
 const { PostModel } = require("../models/postModel.js");
 const { UserModel } = require("../models/userModel.js");
-const { escapeRegex, sanitizeSafeUrl } = require("../utils/crypto.ts");
-const { getCommentsForPost, hydratePost } = require("../utils/serializers.ts");
+const { escapeRegex, sanitizeSafeUrl } = require("../utils/crypto.js");
+const { broadcastAll, createNotification } = require("../utils/realtime.js");
+const { getCommentsForPost, hydratePost } = require("../utils/serializers.js");
 
 async function listPosts(req, res) {
   const tab = req.query.tab === "following" ? "following" : "foryou";
